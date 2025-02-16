@@ -19,7 +19,7 @@ Route::middleware('checkAuth')->group(function () {
     Route::get('/index',[AuthController::class, 'index'])->name('index');
     Route::get('/profile',[UserController::class, 'profile'])->name('profile');
     Route::get('/about',[UserController::class, 'welcome'])->name('welcome');
-    Route::get('/profile/{username}',[UserController::class, 'user'])->name('users.profile');
+    Route::get('/profile/{username}',[UserController::class, 'show'])->name('user');
 
     Route::get('/edit',[UserController::class,'edit'])->name('profile.edit');
     Route::get('/posts/followed',[PostController::class,'followed'])->name('posts.followed');

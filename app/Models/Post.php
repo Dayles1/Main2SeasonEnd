@@ -14,6 +14,9 @@ class Post extends Model
     {
         return $this->belongsTo(User::class);
     }
+    // В модели Post
+
+
 
     public function comments()
     {
