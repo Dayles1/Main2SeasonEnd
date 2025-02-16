@@ -13,7 +13,7 @@ class FollowController extends Controller
 $user =User::findOrFail($id);
 $user->followers()->attach(auth()->user()->id);
 $user->notify(new NewFollowerNotification(auth()->user()));
-return back()->with('success','Siz '. $user->username .' ga obuna boldingiz');
+return back();
 }
 
 
@@ -26,7 +26,7 @@ public function unfollow( $id)
 
     auth()->user()->following()->detach($user->id);
 
-    return back()->with('success', 'Siz ' . $user->username . 'ga obuna bo\'lishni to\'htatdingiz.');
+    return back();
 }
 
 }

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','All Posts')
+@section('title',$post->title)
 
 @section('content')
 <main class="flex-grow container mx-auto px-4 py-8">
@@ -10,8 +10,11 @@
         <p class="text-gray-700 mb-6">{{$post->description}}</p>
 
         <div class="flex justify-end space-x-2">
-            <a href="/edit-post.html" class="text-indigo-600 hover:text-indigo-800">Edit</a>
-            <a href="#" class="text-red-500 hover:text-red-700">Delete</a>
+            <a href="{{route('posts.edit',$post->id)}}" class="text-indigo-600 hover:text-indigo-800">Edit</a>
+            <form action="{{route('posts.destroy',$post->id)}}" method="POST">
+                @csrf @method('DELETE')
+                <button type="submit" class="text-red-500 hover:text-red-700">Delete</button>
+            </form>
         </div>
 
         <h2 class="text-2xl font-bold mb-4">Comments</h2>
@@ -50,4 +53,3 @@
     </article>
 </main>
 @endsection
-@if (auth()->user()->id !== $user->id)
