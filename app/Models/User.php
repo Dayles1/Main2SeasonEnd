@@ -58,18 +58,15 @@ public function followers() {
 public function following() {
     return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id');
 }
-public function profile()
-    {
-        return $this->hasOne(Profile::class);
-    }
+
 
     public function posts()
     {
         return $this->hasMany(Post::class);
     }
 
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
+    // public function comments()
+    // {
+    //     return $this->hasMany(Comment::class);
+    // }
 }

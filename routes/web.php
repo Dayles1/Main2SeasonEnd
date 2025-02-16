@@ -12,15 +12,19 @@ Route::get('/register',[AuthController::class, 'register'])->name('register');
 Route::post('/register',[AuthController::class, 'handleRegister'])->name('handleRegister');
 Route::get('/login',[AuthController::class, 'login'])->name('login');
 Route::post('/login',[AuthController::class, 'handleLogin'])->name('handleLogin');
-Route::get('/logout',[AuthController::class,'logout'])->name('logout');
+Route::post('/logout',[AuthController::class,'logout'])->name('logout');
 
 Route::middleware('checkAuth')->group(function () {
-
+    Route::resource('posts', PostController::class);
     Route::get('/index',[AuthController::class, 'index'])->name('index');
     Route::get('/profile',[UserController::class, 'profile'])->name('profile');
     Route::get('/about',[UserController::class, 'welcome'])->name('welcome');
-    Route::get('/create',[PostController::class, 'create'])->name('create');
-    Route::post('/create',[PostController::class, 'store'])->name('store');
+    Route::get('/profile/{username}',[UserController::class, 'user'])->name('users.profile');
+
+    Route::get('/edit',[UserController::class,'edit'])->name('profile.edit');
+    Route::get('/posts/followed',[PostController::class,'followed'])->name('posts.followed');
+
+
 
 
 

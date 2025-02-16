@@ -23,13 +23,15 @@ class AuthController extends Controller
         if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
             $avatar = $request->file('avatar');
             $avatarName = time() . '-' . $avatar->getClientOriginalName();
-            $path = $avatar->storeAs('public/uploads', $avatarName);
-    
+        
+            $path = $avatar->storeAs('uploads', $avatarName, 'public');
+        
             $avatarPath = 'storage/uploads/' . $avatarName;
         } else {
             $avatarPath = 'storage/default/default-avatar.png';
         }
-    
+        
+     
         $user = User::create([
             'username' => $request->username, 
             'name' => $request->name,
