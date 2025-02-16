@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FollowController;
 
 Route::get('/', function () {
     return view('index-without-login');
@@ -23,6 +24,9 @@ Route::middleware('checkAuth')->group(function () {
 
     Route::get('/edit',[UserController::class,'edit'])->name('profile.edit');
     Route::get('/posts/followed',[PostController::class,'followed'])->name('posts.followed');
+
+    Route::post('/follow/{id}',[FollowController::class,'follow'])->name('follow');
+    Route::post('/unfollow/{id}',[FollowController::class,'unfollow'])->name('unfollow');
 
 
 
