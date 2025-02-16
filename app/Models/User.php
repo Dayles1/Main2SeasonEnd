@@ -51,12 +51,25 @@ class User extends Authenticatable
     }
   
 
-// public function followers() {
-//     return $this->belongsToMany(User::class, 'follows', 'followed_id', 'follower_id');
-// }
+public function followers() {
+    return $this->belongsToMany(User::class, 'follows', 'followed_id', 'follower_id');
+}
 
-// public function following() {
-//     return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id');
-// }
+public function following() {
+    return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id');
+}
+public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
 
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

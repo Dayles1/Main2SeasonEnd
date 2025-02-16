@@ -1,6 +1,7 @@
-@extends('layouts.app')
-@section('title','Welcome')
-@section('content') 
+@extends('layouts.auth')
+@section('auth','Welcome')
+@section('content')
+
 
 <main class="flex-grow container mx-auto px-4 py-8">
     <div class="bg-white rounded-lg shadow-md p-8 text-center">
@@ -10,4 +11,6 @@
                 href="{{route('register')}}">Sign up</a> to view all posts.</p>
     </div>
 </main>
+
+   
 @endsection
