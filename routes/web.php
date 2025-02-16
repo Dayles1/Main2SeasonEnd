@@ -23,7 +23,7 @@ Route::middleware('checkAuth')->group(function () {
     Route::get('/profile/{username}',[UserController::class, 'show'])->name('user');
 
     Route::get('/edit',[UserController::class,'edit'])->name('profile.edit');
-    Route::get('/posts/followed',[PostController::class,'followed'])->name('posts.followed');
+    Route::get('/posts/all',[PostController::class,'followed'])->name('posts.all');
 
     Route::post('/follow/{id}',[FollowController::class,'follow'])->name('follow');
     Route::post('/unfollow/{id}',[FollowController::class,'unfollow'])->name('unfollow');
