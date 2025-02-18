@@ -6,6 +6,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\NotificationController;
 
 Route::get('/', function () {
     return view('index-without-login');
@@ -41,7 +42,7 @@ Route::middleware('checkAuth')->group(function () {
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
     
 
-
+    Route::get('notifications/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.read');
 
 
 

@@ -9,12 +9,13 @@ use Illuminate\Http\Request;
 class FollowController extends Controller
 {
     public function follow(Request $request, $id)
-{
-$user =User::findOrFail($id);
-$user->followers()->attach(auth()->user()->id);
-$user->notify(new NewFollowerNotification(auth()->user()));
-return back();
-}
+    {
+        $user = User::findOrFail($id);
+        $user->followers()->attach(auth()->user()->id);
+        $user->notify(new NewFollowerNotification(auth()->user())); 
+        return back();
+    }
+    
 
 
 
