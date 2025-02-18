@@ -45,14 +45,14 @@ Mail::to($request->email)->send(new SendEmailVerification($user));
     //////////////////////////////////////////
         // Auth::login($user);
         
-        return redirect()->route('posts.all');
+        return redirect()->route('login')->with('success','Emailga habar jonatildi');
     }
     
     public function login()
     {
         return view('login');
     }
-    public function handleLogin(Request $request)
+    public function handleLogin(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
 
@@ -61,13 +61,13 @@ Mail::to($request->email)->send(new SendEmailVerification($user));
 
             if (!$user->email_verified_at) {
                 Auth::logout();
-                return redirect()->route('login')->with('error', 'Ваш email не подтвержден');
+                return back()->withErrors(['email'=> 'Email tasdiqlanmagan']);
             }
 
             return redirect()->route('posts.all');
         }
 
-        return redirect()->route('login')->with('error', 'Неверные данные для входа');
+        return back()->withErrors(['email'=> 'Email yoki Parol notogri']);
     }
 
 
@@ -88,13 +88,13 @@ Mail::to($request->email)->send(new SendEmailVerification($user));
         $user = User::where('verification_token', $token)->first();
 
         if (!$user) {
-            return redirect()->route('login')->with('error', 'Неверный токен');
+            return redirect()->route('login')->withErrors(['email'=> 'Noto tasdiqlandi']);
         }
 
         $user->email_verified_at = now();
         $user->save();
 
-        return redirect()->route('login')->with('success', 'Email успешно подтвержден. Вы можете войти!');
+        return redirect()->route('login')->with('success', 'Email tasdiqlandi');
     }
 
 
