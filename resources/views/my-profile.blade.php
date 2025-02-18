@@ -11,13 +11,14 @@
                 <img src="{{ asset( auth()->user()->avatar) }}" alt="User Avatar"
                     class="w-20 h-20 rounded-full mr-4 mb-4 sm:mb-0">
                 <div class="text-center sm:text-left">
-                    <h1 class="text-2xl font-bold">{{ auth()->user()->email }}</h1>
+                    <h1 class="text-2xl font-bold">{{ auth()->user()->name }}</h1>
+                    <h3 class="text-2xl font-bold">{{ auth()->user()->email }}</h1>
                     <p class="text-gray-600">{{ '@' . auth()->user()->username }}</p>
                 </div>
 
                 <!-- Edit Profile button -->
                 <div class="mt-4 sm:mt-0 sm:ml-auto">
-                    <a href="{{ route('profile.edit') }}"
+                    <a href="{{route('profile.edit') }}"
                         class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
                         Edit Profile
                     </a>

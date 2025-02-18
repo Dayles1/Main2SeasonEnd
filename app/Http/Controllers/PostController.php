@@ -15,11 +15,7 @@ class PostController extends Controller
         $posts = Post::all();
         return view('index', compact('posts'));
     }
-    public function all()
-    {
-        $posts = Post::all();
-        return view('all-posts', compact('posts'));
-    }
+  
 
     public function create()
     {
@@ -80,6 +76,11 @@ class PostController extends Controller
 
         $post->delete();
         return redirect()->route('profile');
+    }
+    public function all()
+    {
+        $posts = Post::all();
+        return view('all-posts', compact('posts'));
     }
 }
 

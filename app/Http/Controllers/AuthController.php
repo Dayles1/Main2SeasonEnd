@@ -41,30 +41,36 @@ class AuthController extends Controller
             'avatar' => $avatarPath,
         ]);
     /////////////////////////////////////////////
-
+Mail::to($request->email)->send(new SendEmailVerification($user));
     //////////////////////////////////////////
-        Auth::login($user);
+        // Auth::login($user);
         
-        return redirect()->route('index');
+        return redirect()->route('posts.all');
     }
     
     public function login()
     {
         return view('login');
     }
-    public function handleLogin(LoginRequest $request)
-{
-    if (Auth::attempt([
-        'email' => $request->email,
-        'password' => $request->password
-    ])) {
-        return redirect()->route('index'); 
-    } else {
-        return back()->withErrors([
-            'email' => 'Invalid login credentials.'
-        ]);
+    public function handleLogin(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            if (!$user->email_verified_at) {
+                Auth::logout();
+                return redirect()->route('login')->with('error', 'Ваш email не подтвержден');
+            }
+
+            return redirect()->route('posts.all');
+        }
+
+        return redirect()->route('login')->with('error', 'Неверные данные для входа');
     }
-}
+
+
 
 
     public function logout(){
@@ -74,4 +80,23 @@ class AuthController extends Controller
     public function index(){
         return view('index');
     }
+   
+    public function verifyEmail(Request $request)
+    {
+        $token = $request->query('token');
+        
+        $user = User::where('verification_token', $token)->first();
+
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'Неверный токен');
+        }
+
+        $user->email_verified_at = now();
+        $user->save();
+
+        return redirect()->route('login')->with('success', 'Email успешно подтвержден. Вы можете войти!');
+    }
+
+
+
 }
