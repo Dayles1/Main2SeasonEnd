@@ -82,5 +82,15 @@ class PostController extends Controller
         $posts = Post::all();
         return view('all-posts', compact('posts'));
     }
+    public function followedPosts()
+    {
+        $user = Auth::user();
+    
+        $posts = Post::whereIn('user_id', $user->following->pluck('id'))->get();
+    
+        return view('index', compact('posts'));
+    }
+    
+
 }
 

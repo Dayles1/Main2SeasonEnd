@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\CommentController;
 
 Route::get('/', function () {
     return view('index-without-login');
@@ -18,21 +19,27 @@ Route::get('/verify-email', [AuthController::class, 'verifyEmail'])->name('verif
 
 
 
+Route::get('/about',[UserController::class, 'welcome'])->name('welcome');
 
+Route::get('/all',[PostController::class,'all'])->name('posts.all');
 
 
 Route::middleware('checkAuth')->group(function () {
     Route::resource('posts', PostController::class);
     Route::get('/index',[AuthController::class, 'index'])->name('index');
     Route::get('/profile',[UserController::class, 'profile'])->name('profile');
-    Route::get('/about',[UserController::class, 'welcome'])->name('welcome');
     Route::get('/profile/{username}',[UserController::class, 'show'])->name('user');
     Route::get('/edit',[UserController::class,'edit'])->name('profile.edit');
     Route::post('/logout',[AuthController::class,'logout'])->name('logout');
     Route::post('/follow/{id}',[FollowController::class,'follow'])->name('follow');
     Route::post('/unfollow/{id}',[FollowController::class,'unfollow'])->name('unfollow');
     Route::patch('/update',[UserController::class,'update'])->name('profile.update');
+    Route::get('/Home',[PostController::class,'followedPosts'])->name('posts.followed');
 
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
+
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+    
 
 
 
