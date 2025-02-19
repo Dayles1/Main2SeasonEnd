@@ -19,10 +19,12 @@ class NewFollowerNotification extends Notification
     }
 
     public function toDatabase($notifiable)
-    {
-        return [
-            'message' => $this->user->name . ' started following you.',
-            'user_id' => $this->user->id,
-        ];
-    }
+{
+    return [
+        'type'=>'follow',
+        'message' => $this->user->name . ' started following you.',
+        'username' => $this->user->username, 
+    ];
+}
+
 }

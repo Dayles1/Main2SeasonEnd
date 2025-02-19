@@ -41,8 +41,9 @@ Route::middleware('checkAuth')->group(function () {
 
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
     
+    Route::patch('/notifications/{notification}', [NotificationController::class, 'markAsRead'])->name('mark.notification.read');
 
-    Route::get('notifications/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.read');
+
 
 
 

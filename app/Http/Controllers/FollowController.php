@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Notifications\NewFollowerNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Notifications\NewFollowerNotification;
 
 class FollowController extends Controller
 {
@@ -12,7 +13,9 @@ class FollowController extends Controller
     {
         $user = User::findOrFail($id);
         $user->followers()->attach(auth()->user()->id);
-        $user->notify(new NewFollowerNotification(auth()->user())); 
+
+        
+        $user->notify(new NewFollowerNotification(Auth::user()));
         return back();
     }
     

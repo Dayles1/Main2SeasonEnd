@@ -44,18 +44,44 @@
                         </button>
 
                         <!-- Notifications Dropdown -->
-                        <div class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5"
-                            id="notifications-dropdown" role="menu" aria-orientation="vertical"
-                            aria-labelledby="notifications-menu">
-                            <a href="{{ route('profile') }}"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">You have
-                                1 new follower</a>
-                            <a href="{{ route('posts.show', ['post' => 1]) }}"
-                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">You have 1
-                                new comment</a>
-                        </div>
+                        @if (auth()->user()->unReadNotifications->count() > 0)
+                            <div class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5"
+                                id="notifications-dropdown" role="menu" aria-orientation="vertical"
+                                aria-labelledby="notifications-menu">
+                                @foreach (auth()->user()->unReadNotifications as $notify)
+                                @if (isset($notify->data['type']) && $notify->data['type'] == 'follow')
+                                    <a href="{{ route('user', $notify->data['username']) }}"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        role="menuitem"
+                                        onclick="event.preventDefault(); document.getElementById('mark-as-read-{{ $notify->id }}').submit();">
+                                        {{ $notify->data['message'] }}
+                                    </a>
+                                @elseif(isset($notify->data['type']) && $notify->data['type'] == 'comment')
+                                    <a href="{{ route('posts.show', $notify->data['post_id']) }}"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                        role="menuitem"
+                                        onclick="event.preventDefault(); document.getElementById('mark-as-read-{{ $notify->id }}').submit();">
+                                        {{ $notify->data['message'] }}
+                                    </a>
+                                @endif
+                                <form id="mark-as-read-{{ $notify->id }}"
+                                    action="{{ route('mark.notification.read', $notify->id) }}" method="POST"
+                                    style="display: none;">
+                                    @csrf
+                                    @method('PATCH')
+                                </form>
+                            @endforeach
+                            
+                                </div>
+                        @else
+                            <div class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5"
+                                id="notifications-dropdown" role="menu" aria-orientation="vertical"
+                                aria-labelledby="notifications-menu">
+                                <p class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                role="menuitem">No Notification</p>
+                            </div>
+                        @endif
                     </div>
-
                     <!-- Profile Dropdown -->
                     <div class="ml-4 relative">
                         <button type="button"
@@ -63,7 +89,7 @@
                             id="user-menu" aria-expanded="false" aria-haspopup="true"
                             onclick="document.getElementById('profile-dropdown').classList.toggle('hidden')">
                             <span class="sr-only">Open user menu</span>
-                            <img class="h-8 w-8 rounded-full" src="{{asset(auth()->user()->avatar)}}" alt="User image">
+                            <img class="h-8 w-8 rounded-full" src="{{ asset(auth()->user()->avatar) }}" alt="User image">
                         </button>
 
                         <!-- Profile Dropdown -->
@@ -113,20 +139,20 @@
     <!-- Mobile menu, show/hide based on menu state. -->
     <div class="hidden sm:hidden" id="mobile-menu">
         <div class="pt-2 pb-3 space-y-1">
-            <a href="{{ route('profile') }}"
+            <a href="{{ route('posts.followed') }}"
                 class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Home</a>
-            <a href="{{ route('posts.index') }}"
+            <a href="{{ route('posts.all') }}"
                 class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">All
                 Posts</a>
-            <a href="{{ route('posts.create') }}"
-                class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Create
-                Post</a>
             @auth
+                <a href="{{ route('posts.create') }}"
+                    class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Create
+                    Post</a>
                 <a href="{{ route('profile') }}"
-                    class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Your Profile</a>
+                    class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Your
+                    Profile</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    
                     <button type="submit"
                         class="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Log
                         out</button>

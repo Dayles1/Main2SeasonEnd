@@ -10,13 +10,12 @@ use App\Notifications\NewCommentNotification;
 
 class CommentController extends Controller
 {
-   
     public function store(StoreCommentRequest $request)
     {
         $comment = Comment::create([
             'comment' => $request->comment,
-            'commentable_id' => $request->commentable_id,
-            'commentable_type' => $request->commentable_type,
+            'commentable_id' => $request->commentable_id,   //post->id
+            'commentable_type' => $request->commentable_type, //type
             'user_name' => Auth::user()->name,
         ]);
     
@@ -27,11 +26,7 @@ class CommentController extends Controller
     
     public function destroy(Comment $comment)
     {
-      
-
         $comment->delete();
-
         return redirect()->back();
     }
 }
-

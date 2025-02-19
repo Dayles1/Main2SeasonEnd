@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\MailMessage;
 
 class NewCommentNotification extends Notification
 {
@@ -22,9 +21,9 @@ class NewCommentNotification extends Notification
     public function toDatabase($notifiable)
     {
         return [
-            'message' => 'You have a new comment on your post.',
-            'comment_id' => $this->comment->id,
-            'user_id' => $this->comment->user_id,
+            'type' => 'comment',
+            'message' => $this->comment->user_name . ' commented on your post.',
+            'post_id' => $this->comment->commentable_id,
         ];
     }
 }

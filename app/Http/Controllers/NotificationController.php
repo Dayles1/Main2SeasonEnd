@@ -1,32 +1,25 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
-    public function index(){
-    $notifications= auth()->user()->notifications;
-        return view('notifications',compact('notifications'));
+    public function unReadNorification ($username){
+        $user=User::where('username', $username)->first();
+        
+return view('user-profile',compact('user'));
 }
-
-
-
-
-public function readAll(){
-    auth()->user()->unreadNotifications->markAsRead();
-
-    return back();
-    
-}
-public function markAsRead($id)
-{
-    $notification = Notification::findOrFail($id);
-    
-    $notification->markAsRead();
-    
-    return redirect()->route('profile'); 
-}
+    public function read($id){
+        $notification=Auth::user()->unReadNorification->where('id',$id)->first();
+        $notification->markAsRead();
+        if($notification->data['type']=='follow'){
+            return redirect()->route('user',$notification->data['username']);
+        }
+        elseif($notification->data['type']=='comment'){
+            return redirect()->toutr('posts.show', $notification->data['post_id']);
+        }
+    }
 }
