@@ -6,8 +6,12 @@
                     <a href="{{ route('posts.followed') }}" class="text-2xl font-bold text-indigo-600">BlogSite</a>
                 </div>
                 <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                    @auth
+
                     <a href="{{ route('posts.followed') }}"
-                        class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Home</a>
+                        class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">Home</a>                            
+
+                        @endauth
                     <a href="{{ route('posts.all') }}"
                         class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">All
                         Posts</a>

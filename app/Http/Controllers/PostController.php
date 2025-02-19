@@ -45,6 +45,12 @@ class PostController extends Controller
     {
         return view('show-post', compact('post'));
     }
+    public function guestShow( $id)
+    {
+        $post=Post::findOrFail($id);
+        
+        return view('show-post', compact('post'));
+    }
 
     public function edit(Post $post)
     {
@@ -56,7 +62,7 @@ class PostController extends Controller
 
     public function update(UpdatePostRequest $request, Post $post)
     { 
-        
+
         
  
         $post->title = $request->input('title');

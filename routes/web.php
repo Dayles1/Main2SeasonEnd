@@ -21,7 +21,7 @@ Route::get('/verify-email', [AuthController::class, 'verifyEmail'])->name('verif
 Route::get('/about',[UserController::class, 'welcome'])->name('welcome');
 
 });
-Route::get('/guest/post/show/{id}',[PostController::class, 'show'])->name('guest.show');
+Route::get('/post/{id}',[PostController::class, 'guestShow'])->name('guest.show');
 Route::get('/all',[PostController::class,'all'])->name('posts.all');
 
 
