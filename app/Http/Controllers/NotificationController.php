@@ -12,14 +12,28 @@ class NotificationController extends Controller
         
 return view('user-profile',compact('user'));
 }
-    public function read($id){
-        $notification=Auth::user()->unReadNorification->where('id',$id)->first();
-        $notification->markAsRead();
-        if($notification->data['type']=='follow'){
-            return redirect()->route('user',$notification->data['username']);
+
+
+
+
+
+
+    public function markAsRead($id)
+    {
+        $notification = Auth::user()->notifications()->find($id);
+        
+        if ($notification) {
+            $notification->markAsRead();
+            
+            if ($notification->data['type'] == 'follow') {
+                return redirect()->route('user', $notification->data['username']);
+            } elseif ($notification->data['type'] == 'comment') {
+                return redirect()->route('posts.show', $notification->data['post_id']);
+            }
         }
-        elseif($notification->data['type']=='comment'){
-            return redirect()->toutr('posts.show', $notification->data['post_id']);
-        }
+        
+        return redirect()->back();
     }
 }
+
+
