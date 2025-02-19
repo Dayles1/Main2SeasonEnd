@@ -12,7 +12,15 @@
                 <h2 class="text-xl font-bold mb-2">{{ $post->title }}</h2>
                 <p class="text-gray-700 mb-4">{{ Str::limit($post->description, 100) }}</p> 
                 <p class="text-gray-700 mb-4">By <a href="{{ route('user', $post->user->username) }}" class="text-indigo-600 hover:text-indigo-800">{{ $post->user->name }}</a></p> 
+
+                @auth
                 <a href="{{ route('posts.show', $post->id) }}" class="text-indigo-600 hover:text-indigo-800">Read More</a>
+                   
+                @endauth
+                @guest
+                <a href="{{ route('guest.show', $post->id) }}" class="text-indigo-600 hover:text-indigo-800">Read More</a>
+                    
+                @endguest
             </div>
         @endforeach
     </div>

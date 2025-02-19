@@ -16,7 +16,7 @@ class UnAuthMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if(auth()->check()){
-            return redirect()->route('index');
+            return redirect()->route('posts.followed');
 
         }
         return $next($request);

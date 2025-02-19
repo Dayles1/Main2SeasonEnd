@@ -77,9 +77,7 @@ Mail::to($request->email)->send(new SendEmailVerification($user));
         Auth::logout();
         return redirect()->route('login');
     }
-    public function index(){
-        return view('index');
-    }
+    
    
     public function verifyEmail(Request $request)
     {

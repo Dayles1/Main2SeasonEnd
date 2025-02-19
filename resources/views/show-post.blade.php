@@ -8,6 +8,8 @@
         <h1 class="text-3xl font-bold mb-4">{{ $post->title }}</h1>
         <img src="{{asset('storage/'.$post->image)}}" alt="Post Image" class="w-full h-64 object-cover rounded-lg mb-4">
         <p class="text-gray-700 mb-6">{{ $post->description }}</p>
+@if (Auth::user()->id == $post->user_id)
+    
 
         <div class="flex justify-end space-x-2">
             <a href="{{ route('posts.edit', $post->id) }}" class="text-indigo-600 hover:text-indigo-800">Edit</a>
@@ -16,7 +18,7 @@
                 <button type="submit" class="text-red-500 hover:text-red-700">Delete</button>
             </form>
         </div>
-
+        @endif
         <h2 class="text-2xl font-bold mb-4">Comments</h2>
         <div class="space-y-4 mb-6">
             @foreach($post->comments as $comment)
